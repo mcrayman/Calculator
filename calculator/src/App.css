@@ -1,7 +1,6 @@
 .App {
   display: flex;
   justify-content: center;
-  border: 2px solid red;
   width: 100vw;
   height: 100vh;
   align-items: center;
@@ -11,17 +10,24 @@
 .calculator {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  border: 2px solid green;
+  border: 1px solid black;
+  width: 300px;
+  background-color: lightgray;                           
+  border-radius: 4%;
+  box-shadow: 3px 3px 5px 3px gray;
 }
 
 .calculator > * {
-  border: 1px solid black;
   padding: 20px;
   margin: 10px;
+  text-align: center;
+  background-color: midnightblue;
+  color: white;
 }
 
 .calculator > *:not(.row) {
   border-radius: 10%;
+  box-shadow: 3px 3px 5px 3px gray;
 }
 
 .row {
@@ -29,9 +35,32 @@
 }
 
 #display {
-  text-align: right;
+  display: block;
+  text-align: right; /* Align text to the left */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Prevent wrapping */
+  direction: ltr;
+  font-family: 'Calculator', sans-serif;
+  font-weight: bold;  
+  font-size: 2em;  
+  padding: 10px; 
+  color: #39FF14;  
+  box-shadow: inset 0 0 10px green;
+  background-color: #1c1c1c;
 }
 
 #clear {
-  text-align: center;
+  box-shadow: 3px 3px 5px 3px gray;
 }
+
+#signature {
+  position: absolute;
+  bottom: 100px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.5em;
+  color: black;
+  font-family: 'Brittany Signature', sans-serif;                                       
+}
+
