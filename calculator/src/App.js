@@ -1,27 +1,66 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
-  const [display, setDisplay] = useState(0);
+  const [display, setDisplay] = useState('0');
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      let keyPressed = event.key;
+      if (!isNaN(keyPressed) || ['+', '-', '*', '/', '.', 'Enter'].includes(keyPressed)) {
+        if (!isNaN(keyPressed)) {
+          handleNumber({ target: { textContent: keyPressed } });
+        } else if (keyPressed === 'Enter') {
+          handleEqual();
+        } else {
+          handleOperator({ target: { textContent: keyPressed } });
+        }
+      } else if (keyPressed === 'Escape') {
+        handleClear();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [display]);
 
   const handleNumber = (event) => {
     let number = event.target.textContent;
-    
-    if (display == '0') {
+
+    if (display === '0') {
       setDisplay(number);
     } else {
-      setDisplay(display + number);
+      const newDisplay = display + number;
+      if (newDisplay.length <= 18) {
+        setDisplay(newDisplay);
+      }
     }
-  }
+  };
 
   const handleClear = () => {
     setDisplay('0');
-  }
+  };
 
   const handleOperator = (event) => {
     let operator = event.target.textContent;
-    setDisplay(display + operator);
-  }
+
+    if (display === '0') {
+      setDisplay('0');
+    } else {
+      setDisplay(display + ' ' + operator + ' ');
+    }
+  };
+
+  const handleEqual = () => {
+    try {
+      setDisplay(eval(display));
+    } catch {
+      setDisplay('ERROR');
+    }
+  };
 
   return (
     <div className="App">
@@ -43,11 +82,12 @@ function App() {
         <div id="three" onClick={handleNumber}>3</div>
         <div id="add" onClick={handleOperator}>+</div>
         <div id="zero" onClick={handleNumber}>0</div>
-        <div id="decimal">.</div>
-        <div id="equals">=</div>
+        <div id="decimal" onClick={handleNumber}>.</div>
+        <div id="equals" onClick={handleEqual}>=</div>
         <div id="subtract" onClick={handleOperator}>-</div>
 
       </div>
+      <div id='signature'>Matthew McMeans</div>
     </div>
   );
 }
